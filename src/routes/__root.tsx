@@ -113,9 +113,25 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    void (async () => {
+      const { useSettingsStore, applyTheme, applyHighContrast, applyReduceMotion } = await import(
+        "../store/settingsStore"
+      );
+      const s = useSettingsStore.getState();
+      applyTheme(s.theme);
+      applyHighContrast(s.highContrast);
+      applyReduceMotion(s.reduceMotion);
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      const onChange = () => {
+        if (useSettingsStore.getState().theme === "system") applyTheme("system");
+      };
+      mql.addEventListener?.("change", onChange);
+    })();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );
