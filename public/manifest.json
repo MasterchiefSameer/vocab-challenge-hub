@@ -1,0 +1,10 @@
+{
+  "name": "Wordle",
+  "short_name": "Wordle",
+  "description": "Guess the 5-letter word in 6 tries.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121213",
+  "theme_color": "#121213",
+  "icons": []
+}
