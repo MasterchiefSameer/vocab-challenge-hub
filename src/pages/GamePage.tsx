@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import type { LetterStatus } from "@/types/game";
 import confetti from "canvas-confetti";
 import { Board } from "@/components/board/Board";
 import { Keyboard } from "@/components/keyboard/Keyboard";
@@ -48,7 +49,17 @@ export function GamePage({ mode }: { mode: GameMode }) {
     lastStatus.current = game.status;
   }, [game.status, game.revealing, settings.reduceMotion]);
 
-  const statuses = useGameStore((s) => s.letterStatuses());
+  const statuses = useMemo<Record<string, LetterStatus>>(() => {
+    const out: Record<string, LetterStatus> = {};
+    const order: LetterStatus[] = ["absent", "present", "correct"];
+    for (const row of game.evaluations) {
+      for (const { letter, status } of row) {
+        const prev = out[letter];
+        if (!prev || order.indexOf(status) > order.indexOf(prev)) out[letter] = status;
+      }
+    }
+    return out;
+  }, [game.evaluations]);
 
   return (
     <ToastHost>
