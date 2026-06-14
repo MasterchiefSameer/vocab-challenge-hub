@@ -1,5 +1,9 @@
-# Wordle
-
+# Wordle - A NYC game (Made by Vibe Coding)
+##
+Vercel Link: https://vocab-challenge-hub.vercel.app/
+##
+Lovable Link: https://vocab-challenge.lovable.app 
+##
 A polished, accessible, production-ready Wordle clone built with TanStack Start (React 19 + Vite 7), TypeScript, Tailwind CSS v4, and Zustand.
 
 ## Features
